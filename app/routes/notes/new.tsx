@@ -1,6 +1,7 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useTransition } from "@remix-run/react";
+import { transform } from "esbuild";
 import * as React from "react";
 
 import { createNote } from "~/models/note.server";
@@ -43,6 +44,7 @@ export default function NewNotePage() {
   const actionData = useActionData() as ActionData;
   const titleRef = React.useRef<HTMLInputElement>(null);
   const bodyRef = React.useRef<HTMLTextAreaElement>(null);
+  const transition = useTransition();
 
   React.useEffect(() => {
     if (actionData?.errors?.title) {
@@ -107,8 +109,9 @@ export default function NewNotePage() {
         <button
           type="submit"
           className="rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
+          disabled={transition.submission}
         >
-          Save
+          {transition.submission ? "Saving note..." : "Save"}
         </button>
       </div>
     </Form>

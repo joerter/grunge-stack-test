@@ -56,6 +56,7 @@ export default function NotesPage() {
                       `block border-b p-4 text-xl ${isActive ? "bg-white" : ""}`
                     }
                     to={note.id}
+                    prefetch="intent"
                   >
                     📝 {note.title}
                   </NavLink>
